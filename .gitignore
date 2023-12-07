@@ -1,0 +1,4 @@
+*.o
+.vscode
+*.out
+instances/teste_entrada.txt
