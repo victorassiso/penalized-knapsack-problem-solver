@@ -39,25 +39,17 @@ int Solution::calculate_prize(const Dataset &dataset) const
   int prize = 0;
   for (int i = 0; i < get_items().size(); i++)
   {
-    std::cout<<"Item "<<i<<": "<<get_item(i)<<std::endl;
     if (get_item(i) == 1)
     {
       prize += dataset.get_prize(i);
-      std::cout<<"    Pize: "<<std::endl;
-      std::cout<<"        + "<<dataset.get_prize(i)<<std::endl;
 
       for (int j = 0; j < dataset.get_penalties(i).size(); j++)
       {
-        std::cout<<"i: "<<i<<"; ";
-        std::cout<<"        - "<<dataset.get_penalty(i, j).second<<" ("<<dataset.get_penalty(i, j).first<<")";
         if (get_item(dataset.get_penalty(i, j).first) == 1 && dataset.get_penalty(i, j).first > i)
         {
-          std::cout<<"; Valid!! ";
           prize -= dataset.get_penalty(i, j).second;
         }
-        std::cout<<std::endl;
       }
-      std::cout<<"        Total: "<<prize<<std::endl;
     }
   }
   return prize;
