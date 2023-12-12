@@ -1,0 +1,10 @@
+{
+  "SA_max": 50,
+  "time_max": 1000,
+  "Temp_0": 1000,
+  "Temp_f": 100,
+  "pi": 10,
+  "lambda": 10,
+  "mi": 10,
+  "log_methods": []
+}
