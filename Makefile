@@ -1,16 +1,20 @@
-CXX = g++				# Compilador C++
-CXXFLAGS = -std=c++11 	# Versão do C++ e flags
-SRC_FILES = main.cpp dataset.cpp
+CC = g++
+CFLAGS = -std=c++11 -g -Wall -Wextra
+
+EXECUTABLE = output
+
+SRC_FILES = main.cpp dataset.cpp solver.cpp solution.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
-OUTPUT = output.out
 
-all: $(OUTPUT)
+all: $(EXECUTABLE)
 
-$(OUTPUT): $(OBJ_FILES)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+$(EXECUTABLE): $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o $@ $^
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(OUTPUT) $(OBJ_FILES)
+	rm -f $(EXECUTABLE) $(OBJ_FILES)
+
+.PHONY: all clean
