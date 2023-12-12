@@ -1,9 +1,9 @@
 #include "dataset.h"
 
+// Constructor
 Dataset::Dataset(const std::string file_path)
 {
-  // Initialize variables to store information from the input file
-  int num_penalties;
+  int num_penalties, min_weight, item_with_min_weight;
 
   // Open the input file
   std::ifstream file(file_path);
@@ -26,7 +26,7 @@ Dataset::Dataset(const std::string file_path)
   // Define the items' values and labels
   for (int i = 0; i < num_items; i++)
   {
-    file >> items[i].value;
+    file >> items[i].prize;
     items[i].label = i;
   }
   // Define the items' weights
@@ -47,51 +47,47 @@ Dataset::Dataset(const std::string file_path)
   file.close();
 }
 
-Dataset::~Dataset() {
-  // If needed, perform cleanup here
-}
+// Destructor
+Dataset::~Dataset() {};
 
-int Dataset::get_num_items() const
-{
-  return num_items;
-}
+// Getters
+int Dataset::get_num_items() const {return this->num_items;};
+int Dataset::get_knapsack_capacity() const {return knapsack_capacity;};
+std::vector<Item> Dataset::get_items() const {return items;}
+Item Dataset::get_item(const int i) const {return get_items().at(i);};
+int Dataset::get_label(const int i) const {return get_item(i).label;}
+int Dataset::get_prize(const int i) const {return get_item(i).prize;}
+int Dataset::get_weight(const int i) const {return get_item(i).weight;}
+std::vector<std::pair<int, int>> Dataset::get_penalties(const int i) const {return get_item(i).penalties;}
+std::pair<int, int> Dataset::get_penalty(const int item_index, const int penalty_index) const {return get_item(item_index).penalties.at(penalty_index);}
 
-int Dataset::get_knapsack_capacity() const
-{
-  return knapsack_capacity;
-}
-
-std::vector<Item> Dataset::get_items_vector() const
-{
-  return items;
-}
-
-void Dataset::log_dataset()
+// Auxiliaries
+void Dataset::log_dataset() const
 {
   const int num_items = this->get_num_items();
   const int knapsack_capacity = this->get_knapsack_capacity();
-  const std::vector<Item> items = this->get_items_vector();
+  const std::vector<Item> items = this->get_items();
 
   std::cout << "Number of itens: " << num_items << std::endl;
   std::cout << "Knapsack capacity: " << knapsack_capacity << std::endl;
 
-  std::cout << "=================VALUE=================" << std::endl;
+  std::cout << "=================PRIZE=================" << std::endl;
   for (int i = 0; i < num_items; i++)
-    std::cout << "[" << i << "] = " << items[i].value << std::endl;
+    std::cout << "[" << i << "] = " << get_prize(i) << std::endl;
   std::cout << "=================WEIGHT=================" << std::endl;
   for (int i = 0; i < num_items; i++)
-    std::cout << "[" << i << "] = " << items[i].weight << std::endl;
+    std::cout << "[" << i << "] = " << get_weight(i) << std::endl;
 
   std::cout << "================PENALTIES===============" << std::endl;
   for (int i = 0; i < num_items; i++)
   {
     std::cout << "Penalties for item " << i << " -> [";
     int count = 0;
-    for (auto pair : items[i].penalties)
+    for (auto pair : get_penalties(i))
     {
       std::cout << "(" << pair.first << ", " << pair.second << ")";
       count++;
-      if (count < items[i].penalties.size())
+      if (count < get_penalties(i).size())
         std::cout << ", ";
     }
     std::cout << "]" << std::endl;
